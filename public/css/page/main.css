@@ -1,0 +1,170 @@
+/* 全局样式-start */
+.bg-eee {
+    background-color: #eee;
+}
+
+.bg-f2f2f2 {
+    background-color: #f2f2f2;
+}
+
+.bg-state-tip {
+    background-color: #00b042;
+}
+
+.bg-state-ad {
+    background-color: #009688;
+}
+
+.bg-state-tq {
+    background-color: #1E3D8F;
+}
+
+.bg-state-itasset {
+    background-color: #7070F7;
+}
+
+.color-normal {
+    color: #282828;
+}
+
+.is-link {
+    cursor: pointer;
+    color: #3B7CFF !important;
+}
+
+.not-show {
+    display: none;
+}
+
+.grid-cols-2 {
+    grid-gap: 64px;
+    gap: 64px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: max-content;
+}
+
+.grid-cols-4 {
+    grid-gap: 32px;
+    gap: 32px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: max-content;
+}
+
+.grid-cols-6 {
+    grid-gap: 24px;
+    gap: 24px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: max-content;
+}
+
+.grid-cols-8 {
+    grid-gap: 16px;
+    gap: 16px;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-template-rows: max-content;
+}
+
+.grid-cols-10 {
+    grid-gap: 12px;
+    gap: 12px;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    grid-template-rows: max-content;
+}
+
+.grid-cols-12 {
+    grid-gap: 8px;
+    gap: 8px;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-rows: max-content;
+}
+
+/* 全局样式-end */
+
+/* 仪表盘-start */
+.page-main {
+    height: calc(100vh - 110px);
+    box-sizing: border-box;
+    padding: 12px;
+    overflow: auto;
+}
+
+.layui-card {
+    margin-bottom: 12px;
+}
+
+.layui-card-header {
+    font-size: 16px;
+    color: #666;
+    border-bottom: 1px solid #eee;
+}
+
+.layui-card-body {
+    padding: 12px 18px;
+}
+
+.dashboard {
+    box-sizing: border-box;
+}
+
+.dashboard .overview-box {
+    height: 100px;
+    border: 0.1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 12px 18px;
+}
+
+.dashboard .overview-box .title {
+    position: relative;
+    height: 32px;
+    align-items: flex-start;
+    font-size: 15px;
+    color: #686868;
+    font-weight: bold;
+}
+
+.dashboard .overview-box .title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 45%;
+    border-bottom: 0.1px solid #d6d6d6;
+}
+
+.dashboard .overview-box .content {
+    font-size: 32px;
+    font-weight: bold;
+    align-items: flex-start;
+}
+
+
+/* tips层-start */
+.dashboard .overview-box .title i {
+    font-weight: normal;
+    margin-left: 5px;
+    color: #999;
+    cursor: pointer;
+}
+
+.idaas-top-mouseTips-tips {
+    position: absolute;
+    bottom: -13px;
+    right: 60px;
+    border-width: 7px;
+    border-style: solid;
+    border-color: #181818 transparent transparent transparent;
+}
+
+/* tips层-end */
+
+/* 仪表盘-end */
+
+/* 底部栏-start */
+#main-footer {
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+}
+
+/* 底部栏-end */

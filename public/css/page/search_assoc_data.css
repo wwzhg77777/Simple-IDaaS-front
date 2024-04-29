@@ -1,0 +1,463 @@
+/* 全局样式-start */
+.bg-eee {
+    background-color: #eee;
+}
+
+.bg-state-tip {
+    background-color: #00b042;
+}
+
+.bg-state-ad {
+    background-color: #009688;
+}
+
+.bg-state-tq {
+    background-color: #1E3D8F;
+}
+
+.bg-state-itasset {
+    background-color: #7070F7;
+}
+
+.color-online {
+    color: #FF9200 !important;
+}
+
+.color-unassoc {
+    color: #FF3500 !important;
+}
+
+.color-assoc,
+.color-offline {
+    color: #000 !important;
+}
+
+.color-3B7CFF,
+.is-link {
+    color: #3B7CFF !important;
+}
+
+.border-color-3B7CFF::after {
+    border-color: transparent transparent transparent #3B7CFF !important;
+}
+
+.not-show {
+    display: none;
+}
+
+/* 全局样式-end */
+
+/* 分组&用户列表-start */
+.assoc-dingtalk-dept {
+    width: 360px;
+}
+
+.assoc-dingtalk-dept,
+.assoc-dingtalk-user {
+    height: calc(100vh - 60px);
+    box-sizing: border-box;
+    border: 0.1px solid #cacaca;
+}
+
+.dept-title,
+.user-title {
+    height: 50px;
+    align-items: center;
+    border-bottom: 0.1px solid #a8a8a8;
+    box-sizing: border-box;
+}
+
+.dept-title span,
+.user-title span {
+    font-size: 24px;
+    font-family: '黑体,Consolas';
+    padding-left: 20px;
+
+}
+
+/* 搜索框-start */
+.dept-content .search {
+    height: 42px;
+    align-items: center;
+    justify-content: center;
+}
+
+.dept-content .search-wrap {
+    height: 32px;
+    width: calc(100% - 20px);
+}
+
+.dept-content .search-wrap input {
+    width: 100%;
+    margin-right: -32px;
+    padding-left: 8px;
+    padding-right: 32px;
+    border: 0.3px solid #a0a0a0;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.dept-content .search-wrap span {
+    width: 32px;
+    cursor: pointer;
+}
+
+.dept-content .search-wrap i {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    position: relative;
+    top: 8px;
+    left: 8px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* 搜索框-end */
+
+/* 树节点-start */
+.dept-list-tree {
+    height: calc(100vh - 154px);
+    overflow: auto;
+}
+
+.dept-list-tree .layui-tree {
+    line-height: 30px;
+}
+
+.dept-list-tree .layui-tree-entry {
+    height: 30px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.dept-list-tree .layui-tree-main {
+    display: block;
+    cursor: unset;
+    padding: 0;
+    height: 30px;
+}
+
+.dept-list-tree .layui-tree-main .layui-tree-iconClick {
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    position: relative;
+    margin: 0 0 0 5px;
+}
+
+.dept-list-tree .layui-tree-main .layui-tree-iconArrow {
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    padding: 0;
+}
+
+.dept-list-tree .layui-tree-main .layui-tree-iconArrow:after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    z-index: 100;
+    width: 0;
+    height: 0;
+    border-width: 7px;
+    border-style: solid;
+    border-color: transparent transparent transparent #a8a8a8;
+    transition: .5s;
+}
+
+.dept-list-tree .layui-tree-txt {
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'Avenir, Helvetica, Arial, sans-serif';
+    width: calc(100% - 25px);
+    padding-left: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 树节点-end */
+
+/* 部门导航链接-start */
+.user-content .nav-link {
+    height: 42px;
+    padding: 0 10px;
+    align-items: center;
+}
+
+.user-content .nav-link a {
+    font-size: 14px;
+    font-family: 'Avenir, Helvetica, Arial, sans-serif';
+}
+
+.user-content .nav-link a.is-link {
+    cursor: pointer;
+}
+
+.user-content .nav-link a:hover {
+    color: black;
+}
+
+.user-content .nav-link a.is-link:hover {
+    color: #3B7CFF;
+}
+
+.user-content .nav-link i {
+    width: 30px;
+    height: 30px;
+}
+
+.user-content .nav-link i::after {
+    content: "";
+    position: absolute;
+    z-index: 100;
+    border-width: 7px;
+    border-style: solid;
+    border-color: transparent transparent transparent #a8a8a8;
+    margin-left: 13px;
+    margin-top: 9px;
+}
+
+/* 部门导航链接-end */
+
+.user-list-flow {
+    height: calc(100vh - 154px);
+    overflow: auto;
+}
+
+.user-list-flow .user-entry {
+    height: 60px;
+    padding-left: 10px;
+    display: grid;
+    align-content: center;
+    cursor: pointer;
+}
+
+.user-list-flow .user-entry:hover {
+    background-color: #eee;
+}
+
+.user-list-flow .user-entry .user-name-wrap {
+    height: 26px;
+    align-items: center;
+}
+
+.user-name-wrap span.user-name {
+    font-size: 17px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.user-name-wrap .assoc-wrap {
+    height: 24px;
+    align-items: center;
+}
+
+.user-name-wrap .assoc-entry {
+    height: 22px;
+    line-height: 20px;
+    margin-right: 10px;
+    border: 1px solid #009688;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.user-name-wrap .assoc-entry span {
+    font-size: 13px;
+    font-family: 'Avenir, Helvetica, Arial, sans-serif';
+}
+
+.user-name-wrap .assoc-entry span.assoc-type {
+    color: #fff;
+    padding: 0px 3px;
+    border-radius: 3px;
+}
+
+.user-name-wrap .assoc-entry span.assoc-state {
+    font-weight: bold;
+    padding: 0 4px;
+}
+
+.user-list-flow .user-entry .user-moreinfo-wrap {
+    height: 18px;
+    align-items: center;
+}
+
+.user-list-flow .user-entry .user-moreinfo-wrap span {
+    font-size: 13px;
+    color: #808080;
+}
+
+.user-list-flow .user-entry .assoc-entry.wrap-direct {
+    margin-right: 5px;
+}
+
+.user-list-flow .user-entry .assoc-entry.wrap-tip {
+    margin-right: 0;
+}
+
+.user-list-flow .user-entry .ignore-assoc,
+.user-list-flow .user-entry .ignore-user .assoc-entry,
+.user-list-flow .user-entry .ignore-btn .not-assoc {
+    display: none;
+}
+
+.user-list-flow .user-entry .ignore-user .ignore-assoc,
+.user-list-flow .user-entry .ignore-btn .ignore-assoc {
+    display: inline-flex;
+}
+
+.user-list-flow .not-used-entry {
+    height: 30px;
+    padding-left: 10px;
+    display: grid;
+    align-content: center;
+}
+
+.user-list-flow .not-used-list {
+    height: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    align-items: center;
+}
+
+.user-list-flow .not-used-list.is-jump {
+    cursor: pointer;
+}
+
+.user-list-flow .not-used-list:hover {
+    background-color: #eee;
+}
+
+
+/* 分组&用户列表-end */
+
+
+/* 数据关联-start */
+.assoc-panel {
+    width: 800px;
+    height: calc(100vh - 60px);
+    box-sizing: border-box;
+    border: 0.1px solid #cacaca;
+}
+
+.panel-title {
+    height: 50px;
+    align-items: center;
+    border-bottom: 0.1px solid #a8a8a8;
+    box-sizing: border-box;
+}
+
+.panel-title span {
+    font-size: 24px;
+    font-family: '黑体,Consolas';
+    padding-left: 20px;
+}
+
+.panel-content {
+    width: 800px;
+    height: calc(100vh - 112px);
+    overflow: auto;
+    box-sizing: border-box;
+    padding: 2px;
+}
+
+.panel-content .layui-colla-content {
+    padding: 5px;
+}
+
+.panel-content .colla-wrap-list.layui-show {
+    display: flex !important;
+}
+
+.panel-content .colla-wrap-list .layui-colla-item {
+    border: 1px solid #eee;
+    border-radius: 2px;
+}
+
+.panel-content #tq_list.layui-show,
+.panel-content #itasset_list.layui-show {
+    flex-wrap: wrap;
+    padding-bottom: 0px;
+}
+
+.panel-content #tq_list .layui-colla-item,
+.panel-content #itasset_list .layui-colla-item {
+    width: 370px;
+    margin-bottom: 5px;
+}
+
+.panel-content .colla-line {
+    display: flex;
+    align-items: center;
+    height: 26px;
+}
+
+.panel-content .colla-label {
+    min-width: 100px;
+    padding-right: 5px;
+    box-sizing: border-box;
+    text-align: right;
+    font-size: 14px;
+    font-weight: bold;
+    color: #181818;
+}
+
+.panel-content .colla-text {
+    font-family: Consolas;
+    font-size: 14px;
+    color: #383838;
+}
+
+.panel-content .colla-input {
+    width: 74%;
+    height: 20px;
+    font-family: Consolas;
+    font-size: 14px;
+    color: #383838;
+}
+
+.panel-content .layui-colla-item .colla-info-text {
+    font-size: 14px;
+    font-weight: bold;
+    color: #00f;
+    margin: 5px 0 5px 20px;
+}
+
+.panel-content .layui-colla-item .ignore-assoc {
+    justify-content: center;
+}
+
+.panel-content .layui-colla-item .ignore-assoc span {
+    color: #fff;
+    padding: 0px 13px;
+    border-radius: 3px;
+    font-weight: normal;
+}
+
+.panel-content .layui-colla-item .ignore-assoc {
+    display: none;
+}
+
+.panel-content .layui-colla-item .ignore-btn.ignore-assoc {
+    display: flex;
+}
+
+/* 数据关联-end */
+
+/* 右键菜单-start */
+#mouseMenu {
+    transition: unset;
+}
+
+#mouseMenu ul {
+    display: none;
+}
+
+#mouseMenu ul.menu-show {
+    display: block;
+}
+
+/* 右键菜单-end */

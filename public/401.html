@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="IDaaS同步数据平台">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>IDaaS同步数据平台</title>
+</head>
+
+<body>
+    <h1 id='app'></h1>
+</body>
+
+<script type="text/javascript">
+    if (window.location.search.indexOf('a=') != -1) {
+        switch (window.location.search.substring(3, 4)) {
+            case '1':
+                document.getElementById('app').innerText = '非钉钉环境，拒绝访问';
+                break;
+            case '2':
+                document.getElementById('app').innerText = '用户无访问权限';
+                break;
+            case '3':
+                document.getElementById('app').innerText = '授权失败，拒绝访问';
+                break;
+            default:
+                document.getElementById('app').innerText = '拒绝访问';
+                break;
+        }
+    } else {
+        document.getElementById('app').innerText = '非法拒绝访问';
+    }
+</script>
