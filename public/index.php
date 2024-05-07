@@ -9,7 +9,8 @@
 # @FileDesc    :  index页面
 #
 
-require_once 'config/index_vars.php';
+require_once 'config/global.php';
+require_once 'config/index.php';
 $isDebug = false;
 if ($isDebug) exit;
 if (isset($_REQUEST['map'])) {
@@ -34,7 +35,7 @@ if (isset($_REQUEST['map'])) {
     <title>IDaaS同步数据平台</title>
     <link rel="stylesheet" href="./layui/css/layui.css">
     <link rel="stylesheet" href="./css/index.css">
-    <?php if (in_array($_REQUEST['map'], ['main', 'search_assoc_data'])) {
+    <?php if (in_array($_REQUEST['map'], ['main', 'assoc_data'])) {
         echo "<link rel=\"stylesheet\" href=\"./css/page/{$_REQUEST['map']}.css\">\r\n";
     } ?>
     <link rel="stylesheet" href="./css/index_media.css">
@@ -74,7 +75,7 @@ if (isset($_REQUEST['map'])) {
         <?php if (isset($require_target)) { ?>
             <div class="layui-body" style="margin: 0;">
                 <!-- 内容主体区域 -->
-                <?php if (in_array($_REQUEST['map'], ['main', 'search_assoc_data'])) {
+                <?php if (in_array($_REQUEST['map'], ['main', 'assoc_data'])) {
                     require_once "components/{$_REQUEST['map']}/page.php";
                 } else {
                 ?>
@@ -85,7 +86,7 @@ if (isset($_REQUEST['map'])) {
                             <div class="idaas-cls-toolbar-left">
                                 <?php if ($_REQUEST['map'] == 'sync_data') { ?>
                                     <button class="layui-btn layui-btn-sm tool-submit-button" style="font-size: 14px;border-radius: 3px;border-color: #686868;" lay-event="executeSync">执行数据同步</button>
-                                <?php } else if ($_REQUEST['map'] == 'search_user_data') { ?>
+                                <?php } else if ($_REQUEST['map'] == 'search_data') { ?>
                                     <div class="layui-inline">
                                         <label style="padding: 9px;font-weight: bold;text-align: right;">条件搜索:</label>
                                         <div style="display: inline-block;width: 100px;">
@@ -138,17 +139,26 @@ if (isset($_REQUEST['map'])) {
     <?php if ($_REQUEST['map'] == 'sync_data') {
         require_once 'template/forms.php'; // 填充form表单元素
     } ?>
-    <?php if ($_REQUEST['map'] == 'search_assoc_data') {
+    <?php if ($_REQUEST['map'] == 'assoc_data') {
         require_once 'template/contextmenu.php'; // 填充右键菜单元素
     } ?>
 
+    <script>
+        localStorage.clear();
+        sessionStorage.clear();
+        const API_URI_SCHEME_HOST = '<?= $API_URI_SCHEME_HOST ?>';
+        const DINGTALK_CORPID = '<?= $DINGTALK_CORPID ?>';
+        const isDebug = false;
+    </script>
+
     <script src="./js/dingtalk.open.js"></script>
+    <script src="./js/api.js"></script>
     <script src="./js/dd_login.js"></script>
     <script src="./layui/layui.js"></script>
     <script src="./js/main.js"></script>
     <script src="./js/utils.js"></script>
     <script src="./js/index.js"></script>
-    <?php if (in_array($_REQUEST['map'], ['main', 'search_assoc_data'])) {
+    <?php if (in_array($_REQUEST['map'], ['main', 'assoc_data'])) {
         echo "<script src=\"./js/page/{$_REQUEST['map']}.js\"></script>\r\n";
     } ?>
     <script src="./js/jquery.min.js"></script>
@@ -156,12 +166,6 @@ if (isset($_REQUEST['map'])) {
     <script src="./js/crypto-js.min.js"></script>
     <script src="./js/moment.min.js"></script>
     <script>
-        localStorage.clear();
-        sessionStorage.clear();
-
-        const API_URI_SCHEME_HOST = '<?= $API_URI_SCHEME_HOST ?>';
-        const DINGTALK_CORPID = '<?= $DINGTALK_CORPID ?>';
-        const isDebug = false;
         // 高亮选中的树节点
         <?php if (isset($require_target)) { ?>
             $($('.idaas-nav-tree').children('li')[<?= array_search($_REQUEST['map'], array_keys($tpl_text_maps)); ?>]).addClass('idaas-nav-tree-active');
@@ -169,7 +173,7 @@ if (isset($_REQUEST['map'])) {
 
         async function main() {
             if (dd.env.platform !== "notInDingTalk") {
-                retDingtalkAuth = await dd_onload(API_URI_SCHEME_HOST, DINGTALK_CORPID);
+                retDingtalkAuth = await dd_onload(DINGTALK_CORPID);
                 scale_lnav();
                 console.log('retDingtalkAuth:', retDingtalkAuth);
             }
@@ -216,7 +220,7 @@ if (isset($_REQUEST['map'])) {
                             // dingtalk平台添加用户信息到右上角 [ 2023.5 by wendr ]
                             $('.dingtalk-info-name').text(retDingtalkAuth.name);
                             <?php
-                            if ($_REQUEST['map'] == 'search_assoc_data') {
+                            if ($_REQUEST['map'] == 'assoc_data') {
                             ?>
                                 $('#body_main').css('display', 'flex');
                                 // 加载树形组件 [ 2024.2 by wendr ]
@@ -236,7 +240,7 @@ if (isset($_REQUEST['map'])) {
                                     height: 'full-60',
                                     toolbar: '#<?= $tpl_var_maps[$_REQUEST['map']][0] ?>_toolbar',
                                     defaultToolbar: [],
-                                    url: `${API_URI_SCHEME_HOST}<?= $tpl_var_maps[$_REQUEST['map']][1] ?>`,
+                                    url: `${API_URI_SCHEME_HOST}/<?= $tpl_var_maps[$_REQUEST['map']][1] ?>`,
                                     method: 'get',
                                     where: {
                                         token: CryptoJS.MD5('token_get_<?= $_REQUEST['map']; ?>').toString(),
@@ -261,11 +265,11 @@ if (isset($_REQUEST['map'])) {
                                     },
                                     done: (res, curr, count) => {
                                         // layui 统计临时数据 [ 2023.12 by wendr ]
-                                        baseData['datas'] = deepClone(res.data);
+                                        baseData.datas = deepClone(res.data);
                                         if (typeof res.fullData !== 'undefined') {
-                                            baseData['fullDatas'] = deepClone(res.fullData);
+                                            baseData.fullDatas = deepClone(res.fullData);
 
-                                            <?php if ($_REQUEST['map'] == 'search_user_data') { ?>
+                                            <?php if ($_REQUEST['map'] == 'search_data') { ?>
                                                 searchTimeStatus('curr', true);
                                             <?php } ?>
 
@@ -349,9 +353,9 @@ if (isset($_REQUEST['map'])) {
                                             case 'getLocalData':
                                                 getLocalData();
                                                 break;
-                                            <?php } else if ($_REQUEST['map'] == 'search_user_data') { ?>
+                                            <?php } else if ($_REQUEST['map'] == 'search_data') { ?>
                                             case 'searchReset':
-                                                searchReset(obj, CryptoJS.MD5('token_get_<?= $_REQUEST['map']; ?>').toString(), 'getSearchUserData');
+                                                searchReset(obj, CryptoJS.MD5('token_get_<?= $_REQUEST['map']; ?>').toString(), 'getSearchData');
                                                 break;
                                             <?php } ?>
 

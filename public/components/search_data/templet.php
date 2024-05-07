@@ -3,7 +3,7 @@
 # @Author      : ww1372247148@163.com
 # @AuthorDNS   : wendirong.top
 # @CreateTime  : 2023-12-07
-# @FilePath    : components/search_user_data/templet.php
+# @FilePath    : components/search_data/templet.php
 # @FileVersion : 1.0
 # @FileDesc    : compontents的 查询数据 模块的 layui_templet模板引擎
 #

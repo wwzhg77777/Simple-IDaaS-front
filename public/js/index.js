@@ -11,21 +11,21 @@ var baseData = {};
 var layForm;
 var retDingtalkAuth;
 
-var scale_maps = {
+const scale_maps = {
     '首页': '首页',
     '查询数据': '查询',
     '数据同步': '同步',
-    '数据关联查询': '关联',
+    '关联查询': '关联',
     '系统日志': '日志',
 };
-var field_tpl_type_maps = {
+const field_tpl_type_maps = {
     'ou': 'OU组',
     'user': '域用户',
     'secgroup': '安全组',
     'dduser': '钉钉用户',
     'dddept': '钉钉部门'
 };
-var field_tpl_method_var_maps = {
+const field_tpl_method_var_maps = {
     'insert ou': ['新增 域OU组', 'insert', '', 'insert', ''],
     'delete ou': ['删除 域OU组', 'delete', '', 'delete', 'normal'],
     'update ou': ['修改 域OU组', 'update', '', 'update', ''],
@@ -38,6 +38,21 @@ var field_tpl_method_var_maps = {
     'remove user': ['迁移 域用户', 'delete', 'delete', 'update', 'update'],
     'update user': ['修改 域用户', 'update', 'update', 'normal', 'update'],
     'transfer user': ['域用户迁移部门', 'update', 'normal', 'update', 'normal'],
+};
+
+const ADcolMaps = {
+    objGUID: '域控 - ObjectGUID',
+    type: '域控 - 类型',
+    cn: '域控 - 域用户',
+    ou: '域控 - 域OU组',
+    desc: '域控 - 描述'
+};
+const DDcolMaps = {
+    userName: '钉钉 - 姓名',
+    dept: '钉钉 - 部门',
+    position: '钉钉 - 职位',
+    jobNumber: '钉钉 - 工号',
+    email: '钉钉 - 企业邮箱'
 };
 
 function pageAddCount(tableId) {
@@ -96,20 +111,6 @@ function frmUpdateSubmit(data) {
 function searchTimeStatus(value, isload) {
     let form = layui.form,
         laydate = layui.laydate;
-    const ADcolMaps = {
-        objGUID: '域控 - ObjectGUID',
-        type: '域控 - 类型',
-        cn: '域控 - 域用户',
-        ou: '域控 - 域OU组',
-        desc: '域控 - 描述'
-    };
-    const DDcolMaps = {
-        userName: '钉钉 - 姓名',
-        dept: '钉钉 - 部门',
-        position: '钉钉 - 职位',
-        jobNumber: '钉钉 - 工号',
-        email: '钉钉 - 企业邮箱'
-    };
     const selectCol = $('#selectCol'),
         selectVal = $('#selectVal');
     if (isload) {
@@ -161,7 +162,8 @@ function searchColumn(value) {
     selectVal.append($('<option/>').attr('value', '').text('搜索/选择'));
     if (value !== '' && value !== 'enabled') {
         baseData.searchKey = value;
-        let valMaps = [...new Set(baseData.fullDatas.filter(x => typeof x[baseData.searchKey] !== 'undefined' ? x[baseData.searchKey] : '').map(x => x[baseData.searchKey]))];
+        let valDatas = baseData.searchTime == moment().format('YYYY-MM-DD') ? baseData.fullDatas : baseData.dd_fullDatas;
+        let valMaps = [...new Set(valDatas.filter(x => typeof x[baseData.searchKey] !== 'undefined' ? x[baseData.searchKey] : '').map(x => x[baseData.searchKey]))];
         valMaps.sort();
         for (const i in valMaps) {
             selectVal.append($('<option/>').attr('value', valMaps[i]).text(valMaps[i]));
@@ -233,13 +235,13 @@ function searchReset(obj, token, mode) {
 }
 
 function getHistoryDingInfo(date) {
-    $.get(`${API_URI_SCHEME_HOST}DingTalk/getHistoryDingInfo`, {
+    ApiGet('/DingTalk/getHistoryDingInfo', {
         token: CryptoJS.MD5('getHistoryDingInfo').toString(),
         mode: 'getHistoryDingInfo',
         date: date,
-    }).success((res) => {
+    }).then((res) => {
         if (res.code == 0) {
-            baseData.fullDatas = res.data;
+            baseData.dd_fullDatas = res.data;
             searchColumn(baseData.searchKey);
         } else {
             layer.msg('服务端请求失败。', {
@@ -248,7 +250,7 @@ function getHistoryDingInfo(date) {
                 anim: 6
             });
         }
-    }).error((e) => {
+    }).catch((e) => {
         layer.msg(`请求失败, err: ${e}`, {
             icon: 2,
             time: 3000,
@@ -428,12 +430,12 @@ function IgnoreInRow(obj, tableId) {
     layer.confirm(`是否忽略同步 序号: ${obj.data.Id} 的数据？`, {
         btn: ['确认', '取消']
     }, function () {
-        $.post(`${API_URI_SCHEME_HOST}putTagData`, {
+        ApiPost('/putTagData', {
             token: CryptoJS.MD5('putTagData').toString(),
             mode: 'put_tag',
             admin: typeof retDingtalkAuth.name !== 'undefined' ? retDingtalkAuth.name : 'Web端',
             tag: JSON.stringify(obj.data)
-        }).success((res) => {
+        }).then((res) => {
             if (res.code == 0) {
                 layer.msg('执行成功！', {
                     icon: 1,
@@ -448,7 +450,7 @@ function IgnoreInRow(obj, tableId) {
                     anim: 6
                 });
             }
-        }).error((e) => {
+        }).catch((e) => {
             layer.msg(`请求失败, err: ${e}`, {
                 icon: 2,
                 time: 3000,
@@ -472,7 +474,7 @@ function syncAssocData(e) {
         $(e).prop('disabled', false);
         $(e).css('opacity', '1');
     }, 120 * 1000);
-    $.post(`${API_URI_SCHEME_HOST}putSyncAssocData`, {
+    ApiPost('/putSyncAssocData', {
         token: CryptoJS.MD5('putSyncAssocData').toString(),
         mode: 'put_syncassocdata',
     });
@@ -481,10 +483,10 @@ function syncAssocData(e) {
 function syncLocalData() {
     $('button[lay-event="syncLocalData"]').prop('disabled', true);
     $('button[lay-event="syncLocalData"]').css('opacity', '0.5');
-    $.post(`${API_URI_SCHEME_HOST}putSyncLocalData`, {
+    ApiPost('/putSyncLocalData', {
         token: CryptoJS.MD5('putSyncLocalData').toString(),
         mode: 'put_synclocaldata',
-    }).success((res) => {
+    }).then((res) => {
         if (res.code == 0) {
             layer.msg('执行成功！', {
                 icon: 1,
@@ -499,7 +501,7 @@ function syncLocalData() {
                 anim: 6
             });
         }
-    }).error((e) => {
+    }).catch((e) => {
         layer.msg(`请求失败, err: ${e}`, {
             icon: 2,
             time: 3000,
@@ -511,10 +513,10 @@ function syncLocalData() {
 function getLocalData() {
     $('button[lay-event="getLocalData"]').prop('disabled', true);
     $('button[lay-event="getLocalData"]').css('opacity', '0.5');
-    $.get(`${API_URI_SCHEME_HOST}getLocalData`, {
+    ApiGet('/getLocalData', {
         token: CryptoJS.MD5('getLocalData').toString(),
         mode: 'get_localdata',
-    }).success((res) => {
+    }).then((res) => {
         if (res.code == 0) {
             layer.msg('执行成功！', {
                 icon: 1,
@@ -528,7 +530,7 @@ function getLocalData() {
                 anim: 6
             });
         }
-    }).error((e) => {
+    }).catch((e) => {
         layer.msg(`请求失败, err: ${e}`, {
             icon: 2,
             time: 3000,
@@ -553,12 +555,12 @@ function onExecuteSync(obj, chooseData) {
         });
         return;
     }
-    $.post(`${API_URI_SCHEME_HOST}putSyncData`, {
+    ApiPost('/putSyncData', {
         token: CryptoJS.MD5('putSyncData').toString(),
         mode: 'put_sync',
         admin: typeof retDingtalkAuth.name !== 'undefined' ? retDingtalkAuth.name : 'Web端',
         sync: JSON.stringify(chooseData)
-    }).success((res) => {
+    }).then((res) => {
         if (res.code == 0) {
             layer.msg('执行成功！', {
                 icon: 1,
@@ -579,7 +581,7 @@ function onExecuteSync(obj, chooseData) {
                 anim: 6
             });
         }
-    }).error((e) => {
+    }).catch((e) => {
         layer.msg(`请求失败, err: ${e}`, {
             icon: 2,
             time: 3000,

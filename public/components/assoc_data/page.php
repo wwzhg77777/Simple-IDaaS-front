@@ -3,9 +3,9 @@
 # @Author      : ww1372247148@163.com
 # @AuthorDNS   : wendirong.top
 # @CreateTime  : 2024-02-15
-# @FilePath    : components/search_assoc_data/page.php
+# @FilePath    : components/assoc_data/page.php
 # @FileVersion : 1.0
-# @FileDesc    : compontents的 数据关联查询 的 页面
+# @FileDesc    : compontents的 关联查询 的 页面
 #
 ?>
 
@@ -43,7 +43,7 @@
     </div>
     <div class="assoc-panel">
         <div class="panel-title div-flex">
-            <span>数据关联 - 钉钉&域控&天擎&固定资产</span>
+            <span>关联查询 - 钉钉&域控&天擎&固定资产</span>
         </div>
         <div id="userListAssoc" class="panel-content">
             <div class="layui-collapse">

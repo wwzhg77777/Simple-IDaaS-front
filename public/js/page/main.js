@@ -4,10 +4,10 @@
  * @CreateTime  :  2024-02-19
  * @FilePath    :  js/page/main.js
  * @FileVersion :  1.0
- * @FileDesc    :  index的数据关联页面js函数集
+ * @FileDesc    :  index的关联查询页面js函数集
 */
 
-var title_maps = {
+const title_maps = {
     ad_ou: 'OU组',
     ad_sec: '域安全组',
     ad_user: '域用户',
@@ -30,7 +30,7 @@ var title_maps = {
     idle_display_asset: '未分配显示器资产'
 }
 
-var tip_maps = {
+const tip_maps = {
     unassoc_ad_user: '域用户的名称跟钉钉用户的名称一致, 但域用户的所属部门跟钉钉用户的所属部门不一致.<br>属于必须关联但关联错误的域用户列表.',
     unrelated_ad_user: '域用户的名称未匹配钉钉用户.<br>属于无需关联钉钉的域用户列表.',
     unassoc_dd_user: '钉钉用户的名称未匹配域用户.<br>属于必须关联但关联错误的钉钉用户列表.',
@@ -80,10 +80,10 @@ function setTopMouseTips(is_load, is_sort) {
 
 function loadDashboard() {
     let layer = layui.layer;
-    $.get(`${API_URI_SCHEME_HOST}Main/getDashboard`, {
+    ApiGet('/Main/getDashboard', {
         token: CryptoJS.MD5('getMainDashboard').toString(),
         mode: 'get_maindashboard',
-    }).success((res) => {
+    }).then((res) => {
         if (res.code == 0) {
             baseData.dashboard = res.data;
             setDashboardData();
@@ -96,7 +96,7 @@ function loadDashboard() {
                 anim: 6
             });
         }
-    }).error((e) => {
+    }).catch((e) => {
         layer.msg(`请求失败, err: ${e}`, {
             icon: 2,
             time: 3000,

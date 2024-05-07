@@ -7,7 +7,7 @@
  * @FileDesc    :  全局通用的js函数集
 */
 
-var searchUserData_table_cols = [
+var searchData_table_cols = [
     [
         {
             type: 'checkbox',

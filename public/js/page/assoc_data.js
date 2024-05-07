@@ -2,12 +2,12 @@
  * @Author      :  ww1372247148@163.com
  * @AuthorDNS   :  wendirong.top
  * @CreateTime  :  2024-02-19
- * @FilePath    :  js/page/search_assoc_data.js
+ * @FilePath    :  js/page/assoc_data.js
  * @FileVersion :  1.0
- * @FileDesc    :  index的数据关联页面js函数集
+ * @FileDesc    :  index的关联查询页面js函数集
 */
 
-var info_map_dd = {
+const info_map_dd = {
     // id: '用户id',
     name: '用户名称',
     jobNumber: '工号',
@@ -15,7 +15,7 @@ var info_map_dd = {
     email: '企业邮箱',
     ownGroup: '所属部门'
 };
-var info_map_ad = {
+const info_map_ad = {
     // ad_objectGUID: '用户GUID',
     ad_userPrincipalName: '用户upn',
     ad_sAMAccountName: '用户samid',
@@ -26,7 +26,7 @@ var info_map_ad = {
     ad_description: '用户描述',
     ad_accountErrInfo: 'Err信息'
 };
-var info_map_tq = {
+const info_map_tq = {
     term_id: '终端id',
     // computerName: '计算机名称',
     ipv4Addr: 'IPv4地址',
@@ -46,7 +46,7 @@ var info_map_tq = {
     storage: '硬盘容量',
     err: '错误信息'
 };
-var info_map_itasset = {
+const info_map_itasset = {
     // barcode: '资产编码',
     assetTypeName: '资产类别',
     name: '资产名称',
@@ -70,7 +70,7 @@ var info_map_itasset = {
     ext_harddisk: '硬盘',
     err: '错误信息'
 };
-var itasset_source_map = {
+const itasset_source_map = {
     1: '购入',
     2: '自建',
     3: '租赁',
@@ -120,16 +120,16 @@ function loadTreeData(tree, elem) {
     })
 
     let layer = layui.layer;
-    $.get(`${API_URI_SCHEME_HOST}Assoc/getTreeData`, {
+    ApiGet('/Assoc/getTreeData', {
         token: CryptoJS.MD5('getAssocTreeData').toString(),
         mode: 'get_assoctreedata',
-    }).success((res) => {
+    }).then((res) => {
         if (res.code == 0) {
             baseData.trees = res.data;
             baseData.users = res.users;
             baseData.not_match_tq = res.not_match_tq;
             baseData.not_match_itasset = res.not_match_itasset;
-            baseData.not_used_tq_list = baseData.not_match_tq.filter(x => x.ownPathNames === '');
+            baseData.not_used_tq_list = res.not_used_tq_list;
             baseData.count = res.count;
             tree.render({
                 elem: elem,
@@ -148,7 +148,7 @@ function loadTreeData(tree, elem) {
                 anim: 6
             });
         }
-    }).error((e) => {
+    }).catch((e) => {
         layer.msg(`请求失败, err: ${e}`, {
             icon: 2,
             time: 3000,
@@ -235,7 +235,7 @@ function opt_ignore(e) {
             break;
     }
 
-    $.post(`${API_URI_SCHEME_HOST}Assoc/putIgnoreData`, {
+    ApiPost('/Assoc/putIgnoreData', {
         token: CryptoJS.MD5('putIgnoreData').toString(),
         mode: `put_ignore_${type}`,
         dd_id: dd_id,
@@ -244,7 +244,7 @@ function opt_ignore(e) {
         var: menu.attr('data-var'),
         is_ignore: is_ignore ? '1' : '0',
         ignore_str: ignore_str
-    }).success((res) => {
+    }).then((res) => {
         if (res.code == 0) {
             let uflow = $('#userListFlow').find(`li[data-id="${dd_id}"]`);
             switch (type) {

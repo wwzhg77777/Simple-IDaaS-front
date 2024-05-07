@@ -3,7 +3,7 @@
 # @Author      :  ww1372247148@163.com
 # @AuthorDNS   :  wendirong.top
 # @CreateTime  :  2024-02-26
-# @FilePath    :  components/search_assoc_data/comtextmenu.php
+# @FilePath    :  components/assoc_data/comtextmenu.php
 # @FileVersion :  1.0
 # @FileDesc    :  template模板的 contextmenu 右键菜单
 #

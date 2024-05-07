@@ -335,7 +335,7 @@
 /* 分组&用户列表-end */
 
 
-/* 数据关联-start */
+/* 关联查询-start */
 .assoc-panel {
     width: 800px;
     height: calc(100vh - 60px);
@@ -445,7 +445,7 @@
     display: flex;
 }
 
-/* 数据关联-end */
+/* 关联查询-end */
 
 /* 右键菜单-start */
 #mouseMenu {

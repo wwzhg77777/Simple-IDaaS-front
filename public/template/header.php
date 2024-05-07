@@ -20,13 +20,13 @@
             <li class="layui-menu-panel-item layui-menu-item-checked"><i class="close-icon" onclick="alert('关闭该标签页')"></i>首页</li>
             <li class="layui-menu-panel-item"><i class="close-icon"></i>查询数据</li>
             <li class="layui-menu-panel-item"><i class="close-icon"></i>数据同步</li>
-            <li class="layui-menu-panel-item"><i class="close-icon"></i>数据关联查询</li>
+            <li class="layui-menu-panel-item"><i class="close-icon"></i>关联查询</li>
             <li class="layui-menu-panel-item"><i class="close-icon"></i>系统日志</li>
             <li class="layui-menu-panel-item"><i class="close-icon"></i>系统设置</li>
         </ul>
         <div class="layui-menu-avater-panel" lay-filter="avater">
-            <?php if (in_array($_REQUEST['map'], ['search_assoc_data', 'main'])) {
-                echo "<button class=\"layui-btn layui-btn-sm tool-temp-button tool-opacity\" style=\"margin-right: 10px;\" onclick=\"syncAssocData(this)\">" . ($_REQUEST['map'] == 'main' ? '刷新页面数据' : '同步数据关联查询') . "</button>";
+            <?php if (in_array($_REQUEST['map'], ['assoc_data', 'main'])) {
+                echo "<button class=\"layui-btn layui-btn-sm tool-temp-button tool-opacity\" style=\"margin-right: 10px;\" onclick=\"syncAssocData(this)\">" . ($_REQUEST['map'] == 'main' ? '刷新页面数据' : '同步关联查询') . "</button>";
             } ?>
             <span onclick="alert('用户详情页')">
                 <p class="dingtalk-info-name">用户名称</p>

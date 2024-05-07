@@ -7,7 +7,7 @@
  * @FileDesc    :  钉钉免密认证的js函数集
 */
 
-function dd_login_token(_uri_scheme_host, _dingtalk_corpId) {
+function dd_login_token(_dingtalk_corpId) {
     return new Promise(resolve => {
         // Dingtalk获取免密code
         dd.runtime.permission.requestAuthCode({
@@ -16,9 +16,9 @@ function dd_login_token(_uri_scheme_host, _dingtalk_corpId) {
                 if (isDebug) console.log('get corpId code:', info.code);
                 if (isDebug) console.log('uri_scheme_host:', _uri_scheme_host);
                 // 请求后端获取Dingtalk的access_token
-                $.get(`${_uri_scheme_host}/getToken.php`, {
-                    mode: 'getToken',
-                }).success((res) => {
+                ApiGet('/getToken.php', {
+                    mode: 'getToken'
+                }).then((res) => {
                     if (res.code == 200) {
                         if (isDebug) console.log('get token:', res.access_token);
                         resolve({
@@ -28,7 +28,7 @@ function dd_login_token(_uri_scheme_host, _dingtalk_corpId) {
                     } else {
                         resolve(false);
                     }
-                }).error(() => {
+                }).catch(() => {
                     resolve(false);
                 });
             },
@@ -39,30 +39,30 @@ function dd_login_token(_uri_scheme_host, _dingtalk_corpId) {
     });
 };
 
-function get_dd_userinfo(_code, _access_token, _uri_scheme_host) {
+function get_dd_userinfo(_code, _access_token) {
     return new Promise(resolve => {
         // 通过免密code和access_token获取当前钉钉用户的信息(userid)
-        $.get(`${_uri_scheme_host}/get_dd_UserInfo.php`, {
+        ApiGet('/get_dd_UserInfo.php', {
             access_token: _access_token,
             code: _code
-        }).success((u) => {
+        }).then((u) => {
             resolve({
                 code: u.code,
                 info: { name: u.data.name, userid: u.data.userid }
             });
-        }).error(() => {
+        }).catch(() => {
             resolve(false);
         });
     });
 }
 
-function dd_onload(uri_scheme_host_, dingtalk_corpId_) {
+function dd_onload(dingtalk_corpId_) {
     return new Promise(async resolve => {
         if (isDebug) console.log('start dingtalk login.');
-        let ret_token = await dd_login_token(uri_scheme_host_, dingtalk_corpId_);
+        let ret_token = await dd_login_token(dingtalk_corpId_);
         if (ret_token) {
             if (isDebug) console.log('ret_token:', ret_token);
-            let ret_userinfo = await get_dd_userinfo(ret_token.code, ret_token.access_token, uri_scheme_host_);
+            let ret_userinfo = await get_dd_userinfo(ret_token.code, ret_token.access_token);
             if (ret_userinfo) {
                 if (isDebug) console.log('ret_userinfo:', ret_userinfo);
                 if (ret_userinfo.code == 200) {
